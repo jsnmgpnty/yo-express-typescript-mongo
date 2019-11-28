@@ -1,0 +1,14 @@
+{
+  "swagger": {
+    "outputDirectory": "./dist",
+    "entryFile": "./server/common/server.ts",
+    "host": "localhost:3000",
+    "basePath": "/v1",
+    "controllerPathGlobs": ["./server/api/**/*Controller.ts"]
+  },
+  "routes": {
+    "basePath": "/v1",
+    "entryFile": "./server/common/server.ts",
+    "routesDir": "./server"
+  }
+}

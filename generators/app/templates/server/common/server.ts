@@ -23,7 +23,7 @@ export default class ExpressServer {
       throw new Error('failed to start express application');
     }
 
-    // server setup
+    // sSrver setup
     const root = path.normalize(__dirname + '/../..');
     app.set('appPath', root + 'client');
     app.use(bodyParser.json({ limit: process.env.REQUEST_LIMIT || '100kb' }));
@@ -37,32 +37,35 @@ export default class ExpressServer {
     app.use(cookieParser(process.env.SESSION_SECRET));
     app.use(express.static(`${root}/public`));
 
-    // database setup
+    // Database setup
     DbConnection.connect(process.env.mongodb_connection);
 
-    // logging setup
+    // Logging setup
     const logger = Logger.init(
       process.env.logstash_host,
       parseInt(process.env.logstash_port)
     );
     Logger.instance = logger;
 
-    // cryptography setup
+    // Cryptography setup
     CryptoService.init(
       process.env.CRYPTO_SECRET || 'RZQtrYK1Ve4gZuhR64EwzZyxseAArkZ8'
     );
 
     // rabbitmq setup
-    getConnection(
-      process.env.rabbitmq_host,
-      process.env.rabbitmq_username,
-      process.env.rabbitmq_password,
-      parseInt(process.env.rabbitmq_port)
-    ).then(result => {
-      TopicClient.init(result);
-    });
+    getConnection(process.env.rabbitmq_host, process.env.rabbitmq_username, process.env.rabbitmq_password, parseInt(process.env.rabbitmq_port))
+      .then(result => {
+        // Initialize topic publisher/subscriber
+        TopicClient.init(result);
 
-    // storage setup
+        // Sample consumer hookup
+        TopicClient.instance.consumeExchange('example', null, null, async (s) => {
+          console.log(s);
+          return Promise.resolve(null);
+        });
+      });
+
+    // Storage setup
     StorageService.init(
       process.env.azure_storage_connection_string,
       process.env.azure_storage_account_name,

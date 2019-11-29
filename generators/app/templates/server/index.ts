@@ -1,4 +1,6 @@
-import './common/env';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import Server from './common/server';
 
 const port = parseInt(process.env.PORT);

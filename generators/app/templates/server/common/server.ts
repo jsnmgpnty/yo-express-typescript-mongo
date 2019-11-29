@@ -6,9 +6,6 @@ import http from 'http';
 import os from 'os';
 import cookieParser from 'cookie-parser';
 
-import dotenv from 'dotenv';
-dotenv.config();
-
 import { DbConnection } from '../api/database';
 import { Logger } from '../api/logging';
 import { TopicClient, getConnection } from '../api/messaging';

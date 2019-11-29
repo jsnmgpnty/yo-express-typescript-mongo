@@ -9,7 +9,7 @@ export class BaseController extends Controller {
     return Promise.resolve(new EntityMetadata<TResult>(null, error));
   }
 
-  handleResponse<TResult>(results: EntityMetadata<TResult>, unhandledError: string, onHandleResponse: (result: EntityMetadata<TResult>) => void): Promise<EntityMetadata<TResult>> {
+  handleResponse<TResult>(results: EntityMetadata<TResult>, unhandledError: string, onHandleResponse?: (result: EntityMetadata<TResult>) => void): Promise<EntityMetadata<TResult>> {
     if (!results) {
       return this.sendErrorResponse(unhandledError, 500);
     }

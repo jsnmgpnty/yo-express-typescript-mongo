@@ -1,7 +1,7 @@
 {
   "name": "generator-jama-express-mongo-ts",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Template for creating Express based web apis with MongoDB, ELK and RabbitMQ using Typescript",
   "homepage": "",
   "author": {
     "name": "Jason Magpantay",
@@ -17,6 +17,7 @@
     "express",
     "mongo",
     "ts",
+    "rabbitmq",
     "yeoman-generator"
   ],
   "devDependencies": {

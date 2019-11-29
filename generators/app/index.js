@@ -32,6 +32,12 @@ module.exports = class extends Generator {
         name: "author",
         message: "Who is the author of this project?",
         default: ""
+      },
+      {
+        type: "input",
+        name: "appTitle",
+        message: "What is the title of your project?",
+        default: ""
       }
     ];
 
@@ -42,15 +48,30 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    // Copy all files
-    this.fs.copy(
-      this.templatePath("public/**/*"),
-      this.destinationPath(`${this.props.name}/public`)
+    // Copy public files
+    this.fs.copyTpl(
+      this.templatePath("public/index.html"),
+      this.destinationPath(`${this.props.name}/public/index.html`),
+      {
+        appTitle: this.props.name,
+        description: this.props.description,
+        author: this.props.author
+      }
     );
+
+    // Copy server common files
     this.fs.copy(
-      this.templatePath("server/**/*"),
-      this.destinationPath(`${this.props.name}/server`)
+      this.templatePath("server/common/server.ts"),
+      this.destinationPath(`${this.props.name}/server/common/server.ts`)
     );
+
+    // Copy server api files
+    this.fs.copy(
+      this.templatePath("server/api/**/*"),
+      this.destinationPath(`${this.props.name}/server/api/**/*`)
+    );
+
+    // Copy tests
     this.fs.copy(
       this.templatePath("test/**/*"),
       this.destinationPath(`${this.props.name}/test`)

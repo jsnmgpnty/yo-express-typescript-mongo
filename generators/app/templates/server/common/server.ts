@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import os from 'os';
 import cookieParser from 'cookie-parser';
+import { serve, setup, JsonObject } from 'swagger-ui-express';
 
 import { DbConnection } from '../api/database';
 import { Logger } from '../api/logging';
@@ -12,6 +13,7 @@ import { TopicClient, getConnection } from '../api/messaging';
 import { StorageService } from '../api/services';
 import { CryptoService } from '../api/utils';
 import { RegisterRoutes } from '../routes';
+import { errorHandler } from '../api/middlewares';
 const app = express();
 
 export default class ExpressServer {
@@ -40,7 +42,9 @@ export default class ExpressServer {
     // Logging setup
     const logger = Logger.init(
       process.env.logstash_host,
-      parseInt(process.env.logstash_port)
+      parseInt(process.env.logstash_port),
+      null,
+      <%= appName %>
     );
     Logger.instance = logger;
 
@@ -68,6 +72,14 @@ export default class ExpressServer {
       process.env.azure_storage_account_name,
       process.env.azure_storage_access_key
     );
+
+    // Swagger setup
+    const doc = require('./swagger.json');
+    app.use('/api-docs', serve);
+    app.get('/api-docs', setup(doc as JsonObject));
+
+    // Register middlewares
+    app.use(errorHandler);
   }
 
   router(): ExpressServer {

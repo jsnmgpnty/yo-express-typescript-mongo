@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as winston from 'winston';
-import { LogstashTransport } from 'winston-logstash-ts';
+const WinstonLogStash = require('winston3-logstash-transport');
 
 class Logger {
   public static instance: winston.Logger;
@@ -15,13 +15,14 @@ class Logger {
       return this.instance;
     }
 
-    let logger: winston.Logger;
+    let logger: winston.Logger = winston.createLogger();
 
     if (!_.isNil(logstashHost) && !_.isNil(logstashPort)) {
-      logger = LogstashTransport.createLogger(appName, {
+      logger.add(new WinstonLogStash({
+        mode: 'tcp',
         host: logstashHost,
         port: logstashPort,
-      });
+      }));
     }
 
     logger.exitOnError = false;
@@ -29,6 +30,7 @@ class Logger {
       winston.format.json(),
       winston.format.timestamp()
     );
+
     logger.add(
       new winston.transports.Console({
         handleExceptions: true,

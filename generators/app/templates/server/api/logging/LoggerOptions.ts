@@ -1,4 +1,3 @@
-import { LogstashOption } from 'winston-logstash-ts';
 import {
   ConsoleTransportOptions,
   FileTransportOptions,
@@ -7,5 +6,5 @@ import {
 export default interface LoggerOptions {
   file?: FileTransportOptions;
   console?: ConsoleTransportOptions;
-  logstash?: LogstashOption;
+  logstash?: { host: string, port: number, mode: 'tcp' | 'udp' };
 }

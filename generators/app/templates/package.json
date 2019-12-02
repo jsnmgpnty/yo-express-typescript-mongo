@@ -41,7 +41,7 @@
     "tsoa": "^2.5.9",
     "uuid": "^3.3.3",
     "winston": "^3.2.1",
-    "winston-logstash-ts": "^0.2.3"
+    "winston3-logstash-transport": "^1.0.1-c"
   },
   "devDependencies": {
     "@types/chai": "^4.2.4",

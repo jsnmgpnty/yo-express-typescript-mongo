@@ -1,6 +1,6 @@
 {
   "name": "generator-jama-express-mongo-ts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Template for creating Express based web apis with MongoDB, ELK and RabbitMQ using Typescript",
   "homepage": "",
   "author": {

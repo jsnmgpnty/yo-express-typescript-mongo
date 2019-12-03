@@ -44,7 +44,7 @@ export default class ExpressServer {
       process.env.logstash_host,
       parseInt(process.env.logstash_port),
       null,
-      <%= appName %>
+      'example-app',
     );
     Logger.instance = logger;
 

@@ -59,10 +59,19 @@ module.exports = class extends Generator {
       }
     );
 
-    // Copy server files
+    // Copy server common files
+    this.fs.copyTpl(
+      this.templatePath("server/common/server.ts"),
+      this.destinationPath(`${this.props.name}/server/common/server.ts`),
+      {
+        appName: this.props.name,
+      }
+    );
+
+    // Copy server api files
     this.fs.copy(
-      this.templatePath("server/**/*"),
-      this.destinationPath(`${this.props.name}/server/**/*`)
+      this.templatePath("server/api/**/*"),
+      this.destinationPath(`${this.props.name}/server/api`)
     );
 
     // Copy tests

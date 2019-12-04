@@ -1,6 +1,6 @@
 {
   "swagger": {
-    "outputDirectory": "./dist",
+    "outputDirectory": "./server/common",
     "entryFile": "./server/common/server.ts",
     "host": "localhost:3000",
     "basePath": "/v1",

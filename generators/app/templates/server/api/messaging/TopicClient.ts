@@ -10,7 +10,12 @@ export async function sendToExchange<T>(exchangeName: string, routingKey: string
   }
 
   if (!TopicClient.channel) {
-    throw new Error('Channel has not been initialized');
+    try {
+      TopicClient.channel = await connection.createConfirmChannel();
+    } catch (err) {
+      Logger.instance.error(err);
+      throw new Error('Channel has not been initialized');
+    }
   }
 
   try {
@@ -34,7 +39,12 @@ export async function consumeExchange<T>(exchangeName: string, routingKey: strin
   }
 
   if (!TopicClient.channel) {
-    throw new Error('Channel has not been initialized');
+    try {
+      TopicClient.channel = await connection.createConfirmChannel();
+    } catch (err) {
+      Logger.instance.error(err);
+      throw new Error('Channel has not been initialized');
+    }
   }
 
   if (_.isNil(routingKey)) {
@@ -45,9 +55,14 @@ export async function consumeExchange<T>(exchangeName: string, routingKey: strin
     queueName = uuid();
   }
 
+  const okExchange = await TopicClient.channel.assertExchange(exchangeName, 'direct', { durable: true });
+  if (!okExchange || !okExchange.exchange) {
+    throw new Error(`Exchange ${exchangeName} does not exist and failed to create on demand`);
+  }
+
   const ok = await TopicClient.channel.assertQueue(queueName, { durable: false });
   try {
-    await TopicClient.channel.bindQueue(queueName, exchangeName, routingKey);
+    await TopicClient.channel.bindQueue(queueName, okExchange.exchange, routingKey);
   } catch (error) {
     Logger.instance.error({ error, message: `Failed to bind queue ${queueName} to exchange ${exchangeName}` });
   }

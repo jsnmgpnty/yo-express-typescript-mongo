@@ -77,13 +77,14 @@ export default class ExpressServer {
     const doc = require('./swagger.json');
     app.use('/api-docs', serve);
     app.get('/api-docs', setup(doc as JsonObject));
-
-    // Register middlewares
-    app.use(errorHandler);
   }
 
   router(): ExpressServer {
     RegisterRoutes(app);
+
+    // Register middlewares
+    app.use(errorHandler);
+
     return this;
   }
 

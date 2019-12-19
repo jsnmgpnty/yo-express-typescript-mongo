@@ -6,7 +6,7 @@ export class BaseController extends Controller {
   sendErrorResponse<TResult>(errorType: string, statusCode: number): Promise<EntityMetadata<TResult>> {
     this.setStatus(statusCode);
     const error: ErrorInfo = new ErrorInfo(errorType);
-    return Promise.resolve(new EntityMetadata<TResult>(null, error));
+    return Promise.reject(new EntityMetadata<TResult>(null, error));
   }
 
   handleResponse<TResult>(results: EntityMetadata<TResult>, unhandledError: string, onHandleResponse?: (result: EntityMetadata<TResult>) => void): Promise<EntityMetadata<TResult>> {

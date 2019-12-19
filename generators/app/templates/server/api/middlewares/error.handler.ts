@@ -7,7 +7,8 @@ export function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  const errors = err.errors || [{ message: err.message }];
-  Logger.instance.error(errors);
-  res.status(err.status || 500).json({ errors });
+  const error = err.error || [{ message: err }];
+  Logger.instance.error(err);
+  res.status(err.status || 500).json(error);
+  next();
 }

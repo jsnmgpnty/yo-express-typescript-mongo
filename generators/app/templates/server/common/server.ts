@@ -80,6 +80,7 @@ export default class ExpressServer {
   }
 
   router(): ExpressServer {
+    // Register routes
     RegisterRoutes(app);
 
     // Register middlewares

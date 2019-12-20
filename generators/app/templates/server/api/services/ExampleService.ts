@@ -3,12 +3,12 @@ import { Example } from '../models';
 import { ExampleSchemaModel } from '../schema';
 import { BaseService } from '.';
 
-class UsersService extends BaseService<Example> {
+class ExampleService extends BaseService<Example> {
   constructor(user) {
     super(user);
   }
 }
 
-const ExampleServiceInstance = new UsersService(ExampleSchemaModel);
+const ExampleServiceInstance = new ExampleService(ExampleSchemaModel);
 
 export { ExampleServiceInstance as ExampleService };
